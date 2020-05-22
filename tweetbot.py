@@ -1,6 +1,7 @@
 import tweepy
 import secrets
 import time
+import datetime
 
 CONSUMER_KEY = 'iZA9WLoTfxmpGhYXETnAxrJKW'
 CONSUMER_SECRET = 'Zjc6wxrJPG9ul67EMwon0ZkhImY2SaNCcpuIFoPk0kZJBWlKGJ'
@@ -15,6 +16,7 @@ api = tweepy.API(auth)
 
 
 while True:
-    current_tweet = 'This is the time to really ex be! ' + secrets.token_urlsafe(8)
+    current_time = datetime.datetime.now()
+    current_tweet = 'This is the time to really ex be! ' + secrets.token_urlsafe(8) + ' ' + current_time.strftime("%c")
     api.update_status(current_tweet)
     time.sleep(1800)
