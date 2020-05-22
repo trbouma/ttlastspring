@@ -17,4 +17,4 @@ api = tweepy.API(auth)
 while True:
     current_tweet = 'This is the time to really ex be! ' + secrets.token_urlsafe(8)
     api.update_status(current_tweet)
-    time.sleep(60)
+    time.sleep(1800)
