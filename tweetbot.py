@@ -17,6 +17,6 @@ api = tweepy.API(auth)
 
 while True:
     current_time = datetime.datetime.now()
-    current_tweet = 'This is the time to really ex be! ' + secrets.token_urlsafe(8) + ' ' + current_time.strftime("%c")
+    current_tweet = 'This is the time to really be! ' + secrets.token_urlsafe(8) + ' ' + current_time.strftime("%c")
     api.update_status(current_tweet)
-    time.sleep(1800)
+    time.sleep(300)
