@@ -19,4 +19,4 @@ while True:
     current_time = datetime.datetime.now()
     current_tweet = 'This is the time to really be! ' + current_time.strftime("%c")
     api.update_status(current_tweet)
-    time.sleep(3600)
+    time.sleep(1800)
