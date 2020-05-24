@@ -15,6 +15,8 @@ api = tweepy.API(auth)
 # api.update_status(current_tweet)
 # secrets.token_urlsafe(8)
 
+print("TTBOT has started!")
+
 while True:
     current_time = datetime.datetime.now()
     current_tweet = 'This is the time to really be! ' + current_time.strftime("%c")
