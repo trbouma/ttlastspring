@@ -7,7 +7,6 @@
 
 
 import argparse
-
 import psycopg2
 
 
@@ -40,8 +39,11 @@ def get_args():
 # ----------------------------------------------------------------------------------------
 def test_connect():
 
-    conn = psycopg2.connect(host="localhost", port=5432, database="ttdb", user="postgres", \
-                            password="postgres")
+    # conn = psycopg2.connect(host="localhost", port=5432, database="ttdb", user="postgres", \
+    #                        password="postgres")
+
+    conn = psycopg2.connect('postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
+
     cur = conn.cursor()
     cur.execute("""SELECT * FROM journal_entries""")
     query_results = cur.fetchall()
@@ -53,8 +55,10 @@ def journal_import(journal_file):
 
     # conn = sqlite3.connect('../data/scheduled-tweets.db')
     # conn = sqlite3.connect(settings_data["app_config"]["main_db"])
-    conn = psycopg2.connect(host="localhost", port=5432, database="ttdb", user="postgres", \
-                            password="postgres")
+    # conn = psycopg2.connect(host="localhost", port=5432, database="ttdb", user="postgres", \
+    #                        password="postgres")
+
+    conn = psycopg2.connect('postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
 
     # DONE Use SQLITE for the database of tweets
     # DONE write import scripts for CSV file
@@ -98,7 +102,7 @@ def main():
     args = get_args()
     test_connect()
     print(args)
-    journal_import(args.journal)
+    # journal_import(args.journal)
     # get_journal_entries(args.retrieve)
     # init_journal_entry(args.retrieve)
     # ttstatus.twitter_update(read_journal_entry())
