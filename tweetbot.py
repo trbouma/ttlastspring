@@ -4,17 +4,10 @@ import time
 import datetime
 import os
 
-CONSUMER_KEY = 'iZA9WLoTfxmpGhYXETnAxrJKW'
-CONSUMER_SECRET = 'Zjc6wxrJPG9ul67EMwon0ZkhImY2SaNCcpuIFoPk0kZJBWlKGJ'
-ACCESS_KEY = '2855775129-w9bxpISeF4ORJ1muH327LHgecyeXeQQPBGxJsJX'
-ACCESS_SECRET = 'uWrlbgafBxpW2GtoHtoTogIeJTiKakNT6JXbr1ukp1dZK'
-auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
+auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
+auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
 api = tweepy.API(auth)
 
-
-# api.update_status(current_tweet)
-# secrets.token_urlsafe(8)
 start_time = datetime.datetime.now()
 api.update_status('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
