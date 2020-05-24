@@ -5,9 +5,10 @@
 # pushing local setup to heroku
 # https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 
-
+import os
 import argparse
 import psycopg2
+import csv
 
 
 # --------------------------------------------------
@@ -43,7 +44,6 @@ def test_connect():
     #                        password="postgres")
 
     conn = psycopg2.connect('postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
-
     cur = conn.cursor()
     cur.execute("""SELECT * FROM journal_entries""")
     query_results = cur.fetchall()
@@ -93,7 +93,21 @@ def journal_import(journal_file):
             VALUES (%s,%s,%s)""", (journal_date,row_index,journal_text))
     conn.commit()
 
+def random_import():
 
+    conn = psycopg2.connect('postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
+    cur = conn.cursor()
+
+    import_file = 'import/random/TTRandomTweets - tweets.csv'
+
+    with open(import_file) as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(row[0], row[1])
+            cur.execute(""" INSERT INTO random_tweets (tweet)
+             VALUES (%s)""", (row[1],))
+
+    conn.commit()
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
@@ -101,7 +115,8 @@ def main():
     print("Import Data")
     args = get_args()
     test_connect()
-    print(args)
+    # random_import()
+    # print(args)
     # journal_import(args.journal)
     # get_journal_entries(args.retrieve)
     # init_journal_entry(args.retrieve)
