@@ -31,7 +31,7 @@ api.update_status('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.s
 
 print("Starting up! " + start_time.strftime("%c"))
 time.sleep(5)
-api.update_status(random_tweet())
+# api.update_status(random_tweet())
 
 while True:
     current_time = datetime.datetime.now()
