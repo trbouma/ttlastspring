@@ -1,2 +1,2 @@
 import os
-print(os.environ['USERNAME'])
+print(os.environ['TIM'])

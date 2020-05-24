@@ -2,6 +2,7 @@ import tweepy
 import secrets
 import time
 import datetime
+import os
 
 CONSUMER_KEY = 'iZA9WLoTfxmpGhYXETnAxrJKW'
 CONSUMER_SECRET = 'Zjc6wxrJPG9ul67EMwon0ZkhImY2SaNCcpuIFoPk0kZJBWlKGJ'
@@ -15,7 +16,7 @@ api = tweepy.API(auth)
 # api.update_status(current_tweet)
 # secrets.token_urlsafe(8)
 start_time = datetime.datetime.now()
-api.update_status("TTBOT has started! "+ start_time.strftime("%c"))
+api.update_status('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
 while True:
     current_time = datetime.datetime.now()
