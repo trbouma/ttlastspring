@@ -13,7 +13,7 @@ def random_tweet():
     c = conn.cursor()
     c.execute("SELECT * FROM random_tweets ")
     rows = c.fetchall()
-    random_tweet = rows[random.randint(0, len(rows) - 1)][0]
+    random_tweet = rows[random.randint(0, len(rows) - 1)][1]
     c.close()
     return random_tweet
 
