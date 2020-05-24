@@ -11,6 +11,8 @@ api = tweepy.API(auth)
 start_time = datetime.datetime.now()
 api.update_status('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
+print("Starting up!" + start_time.strftime("%c"))
+
 while True:
     current_time = datetime.datetime.now()
     current_tweet = 'This is the time to really be! ' + current_time.strftime("%c")
