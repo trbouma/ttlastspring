@@ -47,6 +47,7 @@ s4.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
 api.update_with_media(FILE_NAME, random_tweet() + ' ' + start_time.strftime("%c"))
 
+
 while True:
     current_time = datetime.datetime.now()
     current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
