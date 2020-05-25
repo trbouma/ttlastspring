@@ -6,6 +6,7 @@ import os
 import psycopg2
 import random
 import boto3
+import schedule
 
 # -------------------------------------------------------------------
 
@@ -18,8 +19,16 @@ def random_tweet():
     c.close()
     return random_tweet
 
+def random_status():
 
+    auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
+    auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
+    api = tweepy.API(auth)
 
+    current_time = datetime.datetime.now()
+    current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
+    api.update_status(current_tweet)
+    print(current_tweet)
 # -------------------------------------------------------------------
 # This is the main script
 
@@ -47,10 +56,11 @@ s4.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
 api.update_with_media(FILE_NAME, random_tweet() + ' ' + start_time.strftime("%c"))
 
+# Set up jobs that trigger at intervals
+print("Set up scheduled jobs")
+schedule.every(30).minutes.do(random_status)
+
 
 while True:
-    current_time = datetime.datetime.now()
-    current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
-    api.update_status(current_tweet)
-    print(current_tweet)
-    time.sleep(3600)
+    schedule.run_pending()
+    time.sleep(1)
