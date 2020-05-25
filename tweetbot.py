@@ -39,4 +39,4 @@ while True:
     current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
     api.update_status(current_tweet)
     print(current_tweet)
-    time.sleep(1800)
+    time.sleep(3600)
