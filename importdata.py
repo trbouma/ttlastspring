@@ -109,13 +109,53 @@ def random_import():
 
     conn.commit()
 # --------------------------------------------------
+def catalogue_import():
+    # This imports data into the database
+
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+
+    c = conn.cursor()
+
+    # import_month = '12'
+    import_file = 'import/TT Sketches - sketches2.csv'
+
+    with open(import_file) as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(row[0], row[1], row[2], row[3], row[4])
+            c.execute(""" INSERT INTO catalogue (status, details, media, tags)
+            VALUES (%s,%s,%s,%s)""", (row[0], row[1], row[2], row[3]))
+
+    conn.commit()
+
+def sched_tweet_import():
+    # This imports data into the database
+
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+
+    c = conn.cursor()
+
+    import_file = 'import/December Tweets - tweets.csv'
+    import_month = '12'
+
+    with open(import_file) as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(import_month, row[0], row[1], row[2])
+            c.execute(""" INSERT INTO tweets (month, daytime, tweet, media)
+            VALUES (%s,%s,%s,%s)""", (import_month, row[0], row[1], row[2]))
+
+    conn.commit()
+
 def main():
     """Make a jazz noise here"""
 
     print("Import Data")
     args = get_args()
-    test_connect()
+    # test_connect()
+    # catalogue_import()
     # random_import()
+    sched_tweet_import()
     # print(args)
     # journal_import(args.journal)
     # get_journal_entries(args.retrieve)

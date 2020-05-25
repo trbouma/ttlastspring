@@ -29,6 +29,16 @@ def random_status():
     current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
     api.update_status(current_tweet)
     print(current_tweet)
+
+def real_time_tweet():
+    # Get the current date and time
+    currentDT = datetime.datetime.now()
+    scheduled_month = str(currentDT.month).zfill(2)
+    time_string = str(currentDT.day).zfill(2) + ' ' + str(currentDT.hour).zfill(2) \
+                  + ' ' + str(currentDT.minute).zfill(2)
+    print('real time: ' + scheduled_month + ' ' + time_string)
+
+
 # -------------------------------------------------------------------
 # This is the main script
 
@@ -58,6 +68,7 @@ api.update_with_media(FILE_NAME, random_tweet() + ' ' + start_time.strftime("%c"
 
 # Set up jobs that trigger at intervals
 print("Set up scheduled jobs")
+schedule.every(1).minutes.do(real_time_tweet)
 schedule.every(30).minutes.do(random_status)
 
 
