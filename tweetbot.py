@@ -41,11 +41,12 @@ def real_time_tweet():
     if scheduled_tweet:
         if scheduled_tweet[3] == '' or scheduled_tweet[3] is None:
             print(scheduled_tweet[2] + 'No media!')
+            twitter_update(scheduled_tweet[2])
         else:
             # local_media = fetch_media(scheduled_tweet[3])
             print(scheduled_tweet[2] , scheduled_tweet[3])
+            twitter_update(scheduled_tweet[2])
             # twitter_update_with_media(scheduled_tweet[2], local_media)
-
 
 
 def lookup_tweet(sched_month, time_string):
@@ -57,20 +58,36 @@ def lookup_tweet(sched_month, time_string):
     c.close()
     return row
 
+def twitter_update(current_tweet):
+
+
+    auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
+    auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
+    api = tweepy.API(auth)
+
+
+    try:
+        api.verify_credentials()
+        print("Authentication OK")
+    except:
+        print("Error during authentication")
+
+    try:
+        api.update_status(current_tweet)
+        print(current_tweet)
+    except:
+        print("Error during status update: " + current_tweet)
+
 # -------------------------------------------------------------------
 # This is the main script
 
-auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
-auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
-api = tweepy.API(auth)
-
 start_time = datetime.datetime.now()
-api.update_status('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
+twitter_update('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
 print("Starting up! " + start_time.strftime("%c"))
 
 # print(random_tweet())
-api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
+twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
 
 
 BUCKET_NAME = 'myttbucket'
