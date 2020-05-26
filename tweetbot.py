@@ -60,11 +60,9 @@ def lookup_tweet(sched_month, time_string):
 
 def twitter_update(current_tweet):
 
-
     auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
     auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
     api = tweepy.API(auth)
-
 
     try:
         api.verify_credentials()
@@ -77,6 +75,26 @@ def twitter_update(current_tweet):
         print(current_tweet)
     except:
         print("Error during status update: " + current_tweet)
+
+def twitter_update_with_media(current_tweet, with_media):
+
+
+    auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
+    auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
+    api = tweepy.API(auth)
+
+    try:
+        api.verify_credentials()
+        print("Authentication OK")
+    except:
+        print("Error during authentication")
+
+    try:
+        api.update_with_media(with_media, status=current_tweet)
+        print("Error during status and media update")
+    except:
+        print("Error during status and media update")
+
 
 # -------------------------------------------------------------------
 # This is the main script
@@ -99,7 +117,7 @@ s4.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
 
 # print(random_tweet())
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
-# api.update_with_media(FILE_NAME, random_tweet() + ' ' + start_time.strftime("%c"))
+twitter_update_with_media(random_tweet() + ' ' + start_time.strftime("%c"), FILE_NAME)
 
 # Set up jobs that trigger at intervals
 print("Set up scheduled jobs")
