@@ -99,7 +99,7 @@ s4.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
 
 # print(random_tweet())
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
-api.update_with_media(FILE_NAME, random_tweet() + ' ' + start_time.strftime("%c"))
+# api.update_with_media(FILE_NAME, random_tweet() + ' ' + start_time.strftime("%c"))
 
 # Set up jobs that trigger at intervals
 print("Set up scheduled jobs")
