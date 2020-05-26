@@ -6,7 +6,9 @@ import os
 import psycopg2
 import random
 import boto3
+import s3fs
 import schedule
+
 
 # -------------------------------------------------------------------
 
@@ -107,13 +109,17 @@ print("Starting up! " + start_time.strftime("%c"))
 # print(random_tweet())
 twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
 
-
 BUCKET_NAME = 'myttbucket'
 OBJECT_NAME = 'images/lake-shore-road.jpg'
 FILE_NAME = 'tmp/' + OBJECT_NAME.split("/")[-1]
 print(FILE_NAME)
 s4 = boto3.client('s3')
 s4.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
+
+s5 = s3fs.S3FileSystem()
+print(OBJECT_NAME)
+if s5.exists(BUCKET_NAME +"/"+ OBJECT_NAME):
+    print('true!')
 
 # print(random_tweet())
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
