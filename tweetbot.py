@@ -40,14 +40,15 @@ def real_time_tweet():
                   + ' ' + str(currentDT.minute).zfill(2)
     print('real time: ' + scheduled_month + ' ' + time_string)
     scheduled_tweet = lookup_tweet(scheduled_month, time_string)
+    print(scheduled_tweet)
     if scheduled_tweet:
         if scheduled_tweet[3] == '' or scheduled_tweet[3] is None:
             print(scheduled_tweet[2] + 'No media!')
-            twitter_update(scheduled_tweet[2])
+            # twitter_update(scheduled_tweet[2])
         else:
             # local_media = fetch_media(scheduled_tweet[3])
-            print(scheduled_tweet[2] , scheduled_tweet[3])
-            twitter_update(scheduled_tweet[2])
+            print(scheduled_tweet[2] + "with media" + scheduled_tweet[3])
+            # twitter_update(scheduled_tweet[2])
             # twitter_update_with_media(scheduled_tweet[2], local_media)
 
 
