@@ -37,7 +37,25 @@ def real_time_tweet():
     time_string = str(currentDT.day).zfill(2) + ' ' + str(currentDT.hour).zfill(2) \
                   + ' ' + str(currentDT.minute).zfill(2)
     print('real time: ' + scheduled_month + ' ' + time_string)
+    scheduled_tweet = lookup_tweet(scheduled_month, time_string)
+    if scheduled_tweet:
+        if scheduled_tweet[3] == '' or scheduled_tweet[3] is None:
+            print(scheduled_tweet[2] + 'No media!')
+        else:
+            # local_media = fetch_media(scheduled_tweet[3])
+            print(scheduled_tweet[2] , scheduled_tweet[3])
+            # twitter_update_with_media(scheduled_tweet[2], local_media)
 
+
+
+def lookup_tweet(sched_month, time_string):
+    # Lookup scheduled tweet
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    c = conn.cursor()
+    c.execute("SELECT * FROM tweets WHERE month=%s and daytime=%s", (sched_month, time_string))
+    row = c.fetchone()
+    c.close()
+    return row
 
 # -------------------------------------------------------------------
 # This is the main script
