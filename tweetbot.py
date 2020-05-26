@@ -42,13 +42,13 @@ def real_time_tweet():
     scheduled_tweet = lookup_tweet(scheduled_month, time_string)
     print(scheduled_tweet)
     if scheduled_tweet:
-        if scheduled_tweet[3] == '' or scheduled_tweet[3] is None:
-            print(scheduled_tweet[2] + 'No media!')
-            # twitter_update(scheduled_tweet[2])
+        if scheduled_tweet[4] == '' or scheduled_tweet[4] is None:
+            print(scheduled_tweet[3] + 'No media!')
+            twitter_update(scheduled_tweet[3])
         else:
             # local_media = fetch_media(scheduled_tweet[3])
-            print(scheduled_tweet[2] + "with media" + scheduled_tweet[3])
-            # twitter_update(scheduled_tweet[2])
+            print(scheduled_tweet[3] + "with media" + scheduled_tweet[4])
+            twitter_update(scheduled_tweet[3])
             # twitter_update_with_media(scheduled_tweet[2], local_media)
 
 
@@ -88,9 +88,9 @@ def twitter_update_with_media(current_tweet, with_media):
 
     try:
         api.verify_credentials()
-        print("Authentication OK")
+        print("Authentication for media update OK")
     except:
-        print("Error during authentication")
+        print("Error during authentication for media update")
 
     try:
         api.update_with_media(with_media, status=current_tweet)
