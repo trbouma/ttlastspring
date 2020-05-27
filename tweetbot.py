@@ -10,6 +10,7 @@ import s3fs
 import schedule
 import requests
 import shutil
+import journal
 
 
 # -------------------------------------------------------------------
@@ -177,6 +178,20 @@ def send_sketch():
         twitter_update(sketch_tweet)
 
 
+def tweet_journal_entry():
+    random_chance = 0.4
+
+    if random.random() < random_chance:
+        journal_text = journal.read_journal_entry()
+        if journal_text != 'DONE':
+            # print("Write Journal Entry" + journal_text)
+            twitter_update(journal_text)
+            print("Write Journal Entry " + journal_text)
+            return "TWEET " + journal_text
+        return "DONE"
+    return "NIL"
+
+
 # -------------------------------------------------------------------
 # This is the main script
 
@@ -198,8 +213,10 @@ send_sketch()
 # Set up jobs that trigger at intervals
 print("Set up scheduled jobs")
 schedule.every(1).minutes.do(real_time_tweet)
+schedule.every(2).minutes.do(tweet_journal_entry)
 schedule.every(30).minutes.do(random_status)
 schedule.every(1).to(4).hours.do(send_sketch)
+schedule.every().day.at("06:00").do(journal.ready_to_write_journal)
 
 while True:
     schedule.run_pending()
