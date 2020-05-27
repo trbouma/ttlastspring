@@ -43,7 +43,8 @@ def test_connect():
     # conn = psycopg2.connect(host="localhost", port=5432, database="ttdb", user="postgres", \
     #                        password="postgres")
 
-    conn = psycopg2.connect('postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
+    # conn = psycopg2.connect('postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
     cur = conn.cursor()
     cur.execute("""SELECT * FROM journal_entries""")
     query_results = cur.fetchall()
@@ -152,10 +153,10 @@ def main():
 
     print("Import Data")
     args = get_args()
-    # test_connect()
+    test_connect()
     # catalogue_import()
     # random_import()
-    sched_tweet_import()
+    # sched_tweet_import()
     # print(args)
     # journal_import(args.journal)
     # get_journal_entries(args.retrieve)
