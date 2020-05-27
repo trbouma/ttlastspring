@@ -158,28 +158,49 @@ def fetch_media(request_media):
 
         return filename
 
+def send_sketch():
+
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    c = conn.cursor()
+    c.execute("SELECT * FROM catalogue ")
+    rows = c.fetchall()
+    sketch_row = random.randint(0, len(rows) - 1)
+    sketch_tweet = rows[sketch_row][2]
+    sketch_media = rows[sketch_row][3]
+
+    c.close()
+
+    local_media = fetch_media(sketch_media)
+
+    if os.path.isfile(local_media):
+        twitter_update_with_media(sketch_tweet, local_media)
+    else:
+        twitter_update(sketch_tweet)
+
 # -------------------------------------------------------------------
 # This is the main script
 
 start_time = datetime.datetime.now()
-twitter_update('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
+# twitter_update('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
 print("Starting up! " + start_time.strftime("%c"))
 
 # print(random_tweet())
-twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
+# twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
+send_sketch()
 
 
 # print(random_tweet())
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
-FILE_NAME = fetch_media('http://www3.sympatico.ca/tim.bouma/images/backroad9.jpg')
-twitter_update_with_media(random_tweet() + ' ' + start_time.strftime("%c"), FILE_NAME)
+# FILE_NAME = fetch_media('http://www3.sympatico.ca/tim.bouma/images/backroad9.jpg')
+# twitter_update_with_media(random_tweet() + ' ' + start_time.strftime("%c"), FILE_NAME)
 
 
 # Set up jobs that trigger at intervals
 print("Set up scheduled jobs")
 schedule.every(1).minutes.do(real_time_tweet)
 schedule.every(30).minutes.do(random_status)
+schedule.every(1).to(4).hours.do(send_sketch)
 
 while True:
     schedule.run_pending()
