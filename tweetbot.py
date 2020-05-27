@@ -97,8 +97,8 @@ def twitter_update_with_media(current_tweet, with_media):
 
     try:
         api.update_with_media(with_media, status=current_tweet)
+        print("Status with media update OK")
         os.remove(with_media)
-        print("Error during status and media update")
     except:
         print("Error during status and media update")
 
