@@ -172,7 +172,7 @@ twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
 
 # print(random_tweet())
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
-FILE_NAME = fetch_media('https://upload.wikimedia.org/wikipedia/commons/2/27/TomThomson23.jpg')
+FILE_NAME = fetch_media('http://www3.sympatico.ca/tim.bouma/images/backroad9.jpg')
 twitter_update_with_media(random_tweet() + ' ' + start_time.strftime("%c"), FILE_NAME)
 
 
