@@ -23,8 +23,8 @@ def random_tweet():
     c.close()
     return random_tweet
 
-def random_status():
 
+def random_status():
     auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
     auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
     api = tweepy.API(auth)
@@ -33,6 +33,7 @@ def random_status():
     current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
     api.update_status(current_tweet)
     print(current_tweet)
+
 
 def real_time_tweet():
     # Get the current date and time
@@ -50,7 +51,6 @@ def real_time_tweet():
         else:
             # local_media = fetch_media(scheduled_tweet[3])
             print(scheduled_tweet[3] + "with media" + scheduled_tweet[4])
-            twitter_update(scheduled_tweet[3])
             local_media = fetch_media(scheduled_tweet[4])
             twitter_update_with_media(scheduled_tweet[3], local_media)
 
@@ -64,8 +64,8 @@ def lookup_tweet(sched_month, time_string):
     c.close()
     return row
 
-def twitter_update(current_tweet):
 
+def twitter_update(current_tweet):
     auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
     auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
     api = tweepy.API(auth)
@@ -82,9 +82,8 @@ def twitter_update(current_tweet):
     except:
         print("Error during status update: " + current_tweet)
 
+
 def twitter_update_with_media(current_tweet, with_media):
-
-
     auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
     auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
     api = tweepy.API(auth)
@@ -158,8 +157,8 @@ def fetch_media(request_media):
 
         return filename
 
-def send_sketch():
 
+def send_sketch():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     c = conn.cursor()
     c.execute("SELECT * FROM catalogue ")
@@ -177,6 +176,7 @@ def send_sketch():
     else:
         twitter_update(sketch_tweet)
 
+
 # -------------------------------------------------------------------
 # This is the main script
 
@@ -188,7 +188,6 @@ print("Starting up! " + start_time.strftime("%c"))
 # print(random_tweet())
 # twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
 send_sketch()
-
 
 # print(random_tweet())
 # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
