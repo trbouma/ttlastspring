@@ -214,7 +214,7 @@ send_sketch()
 print("Set up scheduled jobs")
 schedule.every(1).minutes.do(real_time_tweet)
 schedule.every(2).minutes.do(tweet_journal_entry)
-schedule.every(30).minutes.do(random_status)
+schedule.every(4).hours.do(random_status)
 schedule.every(1).to(4).hours.do(send_sketch)
 schedule.every().day.at("06:00").do(journal.ready_to_write_journal)
 
