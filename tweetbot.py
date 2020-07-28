@@ -12,7 +12,7 @@ import requests
 import shutil
 import journal
 
-
+# Main worker file
 # -------------------------------------------------------------------
 
 def random_tweet():
