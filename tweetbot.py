@@ -12,6 +12,7 @@ import requests
 import shutil
 import journal
 
+
 # Main worker file
 # -------------------------------------------------------------------
 
@@ -31,7 +32,8 @@ def random_status():
     api = tweepy.API(auth)
 
     current_time = datetime.datetime.now()
-    current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
+    # current_tweet = random_tweet() + ' ' + current_time.strftime("%c")
+    current_tweet = random_tweet()
     api.update_status(current_tweet)
     print(current_tweet)
 
