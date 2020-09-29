@@ -149,7 +149,7 @@ def fetch_media(request_media):
             with open(filename, 'wb') as f:
                 shutil.copyfileobj(r.raw, f)
 
-            print('Image sucessfully Downloaded: ', filename)
+            print('Image successfully Downloaded: ', filename)
             s4.upload_file(filename, BUCKET_NAME, filename)
             print('upload to amazon for next time!')
         else:
