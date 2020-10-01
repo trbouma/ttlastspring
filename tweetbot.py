@@ -195,15 +195,15 @@ def tweet_journal_entry():
 
 
 # -------------------------------------------------------------------
-# This is the main script
+# This is the main script to run
 
 start_time = datetime.datetime.now()
 # twitter_update('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
 print("Starting up! " + start_time.strftime("%c"))
 
-# print(random_tweet())
-# twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
+print(random_tweet())
+twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
 send_sketch()
 
 # print(random_tweet())
