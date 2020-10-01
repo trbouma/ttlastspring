@@ -201,6 +201,7 @@ start_time = datetime.datetime.now()
 # twitter_update('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
 print("Starting up! " + start_time.strftime("%c"))
+print('Journal Time:', os.environ['JOURNAL_TIME'])
 
 print(random_tweet())
 twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
@@ -218,7 +219,7 @@ schedule.every(1).minutes.do(real_time_tweet)
 schedule.every(2).minutes.do(tweet_journal_entry)
 schedule.every(4).hours.do(random_status)
 schedule.every(1).to(4).hours.do(send_sketch)
-schedule.every().day.at("21:30").do(journal.ready_to_write_journal)
+schedule.every().day.at(os.environ['JOURNAL_TIME']).do(journal.ready_to_write_journal)
 
 while True:
     schedule.run_pending()
