@@ -204,7 +204,7 @@ print("Starting up! " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
 
 print(random_tweet())
-twitter_update(random_tweet() + ' ' + start_time.strftime("%c"))
+twitter_update(random_tweet())
 send_sketch()
 
 # print(random_tweet())
