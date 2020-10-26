@@ -15,6 +15,9 @@ import journal
 
 # Main worker file tt-main.py
 # -------------------------------------------------------------------
+# TODO Clean up data files
+# TODO create generic media module
+
 
 def random_tweet():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -198,7 +201,6 @@ def tweet_journal_entry():
 # This is the main script to run
 
 start_time = datetime.datetime.now()
-# twitter_update('TTBOT has started! ' + os.environ['TIM'] + ' ' + start_time.strftime("%c"))
 
 print("Starting up! " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
