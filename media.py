@@ -10,6 +10,7 @@ import os
 import requests
 import shutil
 
+
 # --------------------------------------------------
 
 def get_args():
@@ -36,6 +37,15 @@ def get_args():
     args = parser.parse_args()
 
     return args
+
+
+def test_connect():
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    cur = conn.cursor()
+    cur.execute("""SELECT id, media FROM catalogue""")
+    query_results = cur.fetchall()
+    for row in query_results:
+            print(row[0], get_filename(row[1]), exists_on_amazon(get_filename(row[1]) ))
 
 def fetch_media(request_media):
     # TODO Fetch media - input a request determine if filename or url
@@ -93,6 +103,26 @@ def fetch_media(request_media):
         return filename
 
 
+def get_filename(request_media):
+    if "?" in request_media:
+        retrieve_url = request_media.split("?")[0] + '.jpg'
+        # filename = file_prefix + request_media.rstrip().split("/")[-1].split("?")[0] + '.jpg'
+    else:
+        retrieve_url = request_media
+        # filename = file_prefix + request_media.rstrip().split("/")[-1]
+
+    return retrieve_url.rstrip().split("/")[-1]
+
+def exists_on_amazon(request_media):
+    s5 = s3fs.S3FileSystem()
+    BUCKET_NAME = os.environ['S3_BUCKET']
+    file_prefix = "images/"
+    if s5.exists(BUCKET_NAME + "/" + file_prefix + request_media):
+        return True
+    else:
+        return False
+
+
 # --------------------------------------------------
 
 def main():
@@ -100,8 +130,12 @@ def main():
     args = get_args()
     print("Media")
     print(args.media)
-    filename = fetch_media(args.media)
-    print(filename)
+    # filename = fetch_media(args.media)
+    # print(filename)
+    # print("finished")
+
+    test_connect()
+
 
 if __name__ == '__main__':
     load_dotenv()
