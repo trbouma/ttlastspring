@@ -1,5 +1,4 @@
 import tweepy
-import secrets
 import time
 import datetime
 import os
