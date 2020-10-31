@@ -47,6 +47,17 @@ def test_connect():
     for row in query_results:
             print(row[0], get_filename(row[1]), exists_on_amazon(get_filename(row[1]) ))
 
+def fetch_media2(request_media):
+    s5 = s3fs.S3FileSystem()
+    s4 = boto3.client('s3')
+    file_prefix = "images/"
+
+    filename = get_filename(request_media)
+    if exists_on_amazon(filename):
+        print("exists on amazon")
+    else:
+        print("does not exists on amazon")
+
 def fetch_media(request_media):
     # TODO Fetch media - input a request determine if filename or url
     s5 = s3fs.S3FileSystem()
@@ -134,7 +145,8 @@ def main():
     # print(filename)
     # print("finished")
 
-    test_connect()
+    # test_connect()
+    fetch_media2(args.media)
 
 
 if __name__ == '__main__':
