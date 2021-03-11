@@ -11,8 +11,8 @@ import psycopg2
 import csv
 from dotenv import load_dotenv
 
-# TODO Clean up data files
 
+# TODO Clean up data files
 
 
 # --------------------------------------------------
@@ -41,10 +41,9 @@ def get_args():
 
     return args
 
+
 # ----------------------------------------------------------------------------------------
 def test_connect():
-
-
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     cur = conn.cursor()
     cur.execute("""SELECT count(*) FROM tweets""")
@@ -59,35 +58,35 @@ def journal_import(journal_file):
 
     cur = conn.cursor()
 
-
     journal_dir = 'import/journal-entries/'
     # journal_file = '1917-05-04.txt'
     # create table journal_entries (journal_date text, journal_index text, journal_text text)
 
     file = open(journal_dir + journal_file)
     read_data = file.readlines()
-    journal_date = journal_file.replace('.txt','').replace('-',' ')
+    journal_date = journal_file.replace('.txt', '').replace('-', ' ')
     print(journal_date)
     # Delete existing rows
-    cur.execute('DELETE FROM journal_entries WHERE journal_date LIKE %s',(journal_date,))
+    cur.execute('DELETE FROM journal_entries WHERE journal_date LIKE %s', (journal_date,))
     conn.commit()
 
-    warning = "WARNING!"
+    warning = "WA"
     ok_length = "OK"
     row_index = 0
     for row in read_data:
-        row_index +=1
+        row_index += 1
         journal_text = row.rstrip()
         length = len(journal_text)
         # print(journal_date, row_index,journal_text)
-        print(f'{journal_date} {row_index} {journal_text} {length} ({ok_length if length < 200 else warning }) ')
+        print(f'({ok_length if length < 270 else warning})  {row_index} {journal_text} {length}  ')
         cur.execute(""" INSERT INTO journal_entries (journal_date, journal_index, journal_text)
-            VALUES (%s,%s,%s)""", (journal_date,row_index,journal_text))
+            VALUES (%s,%s,%s)""", (journal_date, row_index, journal_text))
     conn.commit()
 
-def random_import():
 
-    conn = psycopg2.connect('postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
+def random_import():
+    conn = psycopg2.connect(
+        'postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
     cur = conn.cursor()
 
     import_file = 'import/random/TTRandomTweets - tweets.csv'
@@ -100,6 +99,8 @@ def random_import():
              VALUES (%s)""", (row[1],))
 
     conn.commit()
+
+
 # --------------------------------------------------
 def catalogue_import():
     # This imports data into the database
@@ -120,6 +121,7 @@ def catalogue_import():
 
     conn.commit()
 
+
 def sched_tweet_import():
     # This imports data into the database
 
@@ -138,6 +140,7 @@ def sched_tweet_import():
             VALUES (%s,%s,%s,%s)""", (import_month, row[0], row[1], row[2]))
 
     conn.commit()
+
 
 def main():
     """Make a jazz noise here"""
@@ -160,4 +163,3 @@ def main():
 if __name__ == '__main__':
     load_dotenv()
     main()
-
