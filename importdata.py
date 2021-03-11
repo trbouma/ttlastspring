@@ -85,7 +85,7 @@ def journal_import(journal_file):
         else:
             tweet_out.append(journal_text)
 
-
+    #TODO Combine shorter tweets into longer tweets
 
     for row in tweet_out:
         row_index += 1
