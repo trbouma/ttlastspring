@@ -72,13 +72,27 @@ def journal_import(journal_file):
 
     warning = "WA"
     ok_length = "OK"
+    max_length = 270
+    tweet_out = []
     row_index = 0
     for row in read_data:
+        journal_text = row.strip()
+        if (len(journal_text) > max_length):
+            split_journal_text = journal_text.split(". ")
+            for i in range(len(split_journal_text)):
+                split_journal_text[i] = split_journal_text[i] + "."
+            tweet_out.extend(split_journal_text) # need to add back in period
+        else:
+            tweet_out.append(journal_text)
+
+
+
+    for row in tweet_out:
         row_index += 1
         journal_text = row.rstrip()
         length = len(journal_text)
         # print(journal_date, row_index,journal_text)
-        print(f'({ok_length if length < 270 else warning})  {row_index} {journal_text} {length}  ')
+        print(f'({ok_length if length < max_length else warning}) {length}  {row_index} {journal_text}  ')
         cur.execute(""" INSERT INTO journal_entries (journal_date, journal_index, journal_text)
             VALUES (%s,%s,%s)""", (journal_date, row_index, journal_text))
     conn.commit()
