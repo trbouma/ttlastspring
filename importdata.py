@@ -74,6 +74,7 @@ def journal_import(journal_file):
     ok_length = "OK"
     max_length = 270
     tweet_out = []
+    tweet_final = []
     row_index = 0
     for row in read_data:
         journal_text = row.strip()
@@ -81,13 +82,33 @@ def journal_import(journal_file):
             split_journal_text = journal_text.split(". ")
             for i in range(len(split_journal_text)):
                 split_journal_text[i] = split_journal_text[i] + "."
-            tweet_out.extend(split_journal_text) # need to add back in period
+            tweet_out.extend(split_journal_text)  # need to add back in period
         else:
             tweet_out.append(journal_text)
 
-    #TODO Combine shorter tweets into longer tweets
+    # Combine shorter tweets into longer tweets
 
-    for row in tweet_out:
+    # First line is the header line, so leave as is
+    tweet_final.append(tweet_out[0])
+    tweet_num = len(tweet_out)
+    j = 1
+
+    while j < tweet_num:
+        if len(tweet_out[j]) > 140:
+            tweet_final.append(tweet_out[j])
+        else:
+            # tweet is less than 140
+            if j == tweet_num - 1:
+                tweet_final.append(tweet_out[j])
+            else:
+                if len(tweet_out[j]) + len(tweet_out[j + 1]) < max_length:
+                    tweet_final.append(tweet_out[j] + " " + tweet_out[j + 1])
+                    j += 1
+                else:
+                    tweet_final.append(tweet_out[j])
+        j += 1
+
+    for row in tweet_final:
         row_index += 1
         journal_text = row.rstrip()
         length = len(journal_text)

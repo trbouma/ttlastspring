@@ -183,7 +183,7 @@ def send_sketch():
 
 
 def tweet_journal_entry():
-    random_chance = 0.4
+    random_chance = 0.5
 
     if random.random() < random_chance:
         journal_text = journal.read_journal_entry()
