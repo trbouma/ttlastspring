@@ -94,7 +94,15 @@ def journal_import(journal_file):
     j = 1
 
     while j < tweet_num:
-        if len(tweet_out[j]) > 140:
+        if len(tweet_out[j]) > 250:
+            print('A LONG SENTENCE!!')
+            # Break into two
+            mid_break = len(tweet_out[j])//2
+            print(mid_break)
+            tweet_final.append(tweet_out[j][0:mid_break])
+            tweet_final.append(tweet_out[j][mid_break:len(tweet_out[j])])
+            j +=1
+        elif len(tweet_out[j]) > 140:
             tweet_final.append(tweet_out[j])
         else:
             # tweet is less than 140

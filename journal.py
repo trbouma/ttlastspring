@@ -82,7 +82,7 @@ def read_journal_entry():
 
 
 def ready_to_write_journal():
-    # TODO This will be the daily to set up to do the series of tweets from the journal entry.
+    # DONE This isthe daily to set up to do the series of tweets from the journal entry.
 
     currentDT = datetime.datetime.now()
     journal_year = "1917 " if currentDT.month < 9 else "1916 "

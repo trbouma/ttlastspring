@@ -48,6 +48,7 @@ def real_time_tweet():
                   + ' ' + str(currentDT.minute).zfill(2)
     # print('real time: ' + scheduled_month + ' ' + time_string)
     scheduled_tweet = lookup_tweet(scheduled_month, time_string)
+    # TODO write routine to determine if journal entry is being written
     # print(scheduled_tweet)
     if scheduled_tweet:
         if scheduled_tweet[4] == '' or scheduled_tweet[4] is None:
@@ -201,7 +202,7 @@ def tweet_journal_entry():
 
 start_time = datetime.datetime.now()
 
-print("Starting up! " + start_time.strftime("%c"))
+print("Starting up! Version 2021-03-16 a " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
 
 print(random_tweet())
@@ -217,7 +218,7 @@ send_sketch()
 # Set up jobs that trigger at intervals
 print("Set up scheduled jobs")
 schedule.every(1).minutes.do(real_time_tweet)
-schedule.every(2).minutes.do(tweet_journal_entry)
+schedule.every(1).minutes.do(tweet_journal_entry)
 schedule.every(4).hours.do(random_status)
 schedule.every(1).to(4).hours.do(send_sketch)
 schedule.every().day.at(os.environ['JOURNAL_TIME']).do(journal.ready_to_write_journal)
