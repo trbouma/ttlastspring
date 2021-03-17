@@ -40,6 +40,9 @@ def random_tweet():
 
 
 def random_status():
+    if check_journal_write_status():
+        return
+
     auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
     auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
     api = tweepy.API(auth)
@@ -63,7 +66,7 @@ def real_time_tweet():
     # print(scheduled_tweet)
     if scheduled_tweet:
         if scheduled_tweet[4] == '' or scheduled_tweet[4] is None:
-            print(scheduled_tweet[3] + 'No media!')
+            print(scheduled_tweet[3] + 'with no media!')
             twitter_update(scheduled_tweet[3])
         else:
             # local_media = fetch_media(scheduled_tweet[3])
