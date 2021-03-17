@@ -17,14 +17,17 @@ import journal
 # TODO Clean up data files
 # TODO create generic media module
 
-def check_journal_status():
+def check_journal_write_status():
     # Check journal status
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     c = conn.cursor()
     c.execute('select * from journal_status')
     row = c.fetchone()
     journal_date, journal_max, journal_index, write_status = row[1], row[2], row[3], row[4]
-    return write_status
+    if write_status.upper() == 'WRITE':
+        return True
+    else:
+        return False
 
 def random_tweet():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -213,7 +216,7 @@ start_time = datetime.datetime.now()
 print("Starting up! Version 2021-03-16 heroku-20 stack " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
 
-print(check_journal_status())
+print(check_journal_write_status())
 print(random_tweet())
 twitter_update(random_tweet())
 send_sketch()
