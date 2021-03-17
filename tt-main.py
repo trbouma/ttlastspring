@@ -55,6 +55,8 @@ def random_status():
 
 
 def real_time_tweet():
+    if check_journal_write_status():
+        return
     # Get the current date and time
     currentDT = datetime.datetime.now()
     scheduled_month = str(currentDT.month).zfill(2)
@@ -179,6 +181,8 @@ def fetch_media(request_media):
 
 
 def send_sketch():
+    if check_journal_write_status():
+        return
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     c = conn.cursor()
     c.execute("SELECT * FROM catalogue ")
