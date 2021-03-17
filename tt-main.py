@@ -217,10 +217,10 @@ print("Starting up! Version 2021-03-16 heroku-20 stack " + start_time.strftime("
 print('Journal Time:', os.environ['JOURNAL_TIME'])
 
 print(check_journal_write_status())
-if check_journal_write_status() == True:
-    Print('Journal is writing')
+if check_journal_write_status():
+    print('Journal is writing')
 else:
-    Print('Journal is done')
+    print('Journal is done')
 
 print(random_tweet())
 twitter_update(random_tweet())
