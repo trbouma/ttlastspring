@@ -202,7 +202,7 @@ def tweet_journal_entry():
 
 start_time = datetime.datetime.now()
 
-print("Starting up! Version 2021-03-16 b " + start_time.strftime("%c"))
+print("Starting up! Version 2021-03-16 heroku-20 stack " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
 
 print(random_tweet())
