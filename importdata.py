@@ -5,6 +5,8 @@
 # pushing local setup to heroku
 # https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 
+# A good DB utility app https://pgweb-demo.herokuapp.com/#
+
 import os
 import argparse
 import psycopg2
@@ -128,8 +130,7 @@ def journal_import(journal_file):
 
 
 def random_import():
-    conn = psycopg2.connect(
-        'postgres://clelhjogzbfzmd:79c46b30cb390f16500d3f937f97722700f134daeaeea0da72a04b553cfffe60@ec2-54-81-37-115.compute-1.amazonaws.com:5432/dfn6u0pbnotebc?ssl=true')
+
     cur = conn.cursor()
 
     import_file = 'import/random/TTRandomTweets - tweets.csv'
@@ -142,6 +143,21 @@ def random_import():
              VALUES (%s)""", (row[1],))
 
     conn.commit()
+
+def tweet_import():
+
+    # cur = conn.cursor()
+
+    # tweet_import_file = 'import/timeline/tweet-1917-03-24.csv'
+    tweet_import_file = 'import/catalogue/catalogue.csv'
+
+    with open(tweet_import_file) as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(row)
+
+
+    # conn.commit()
 
 
 # --------------------------------------------------
@@ -196,6 +212,7 @@ def main():
     # sched_tweet_import()
     # print(args)
     journal_import(args.journal)
+    # tweet_import()
     # get_journal_entries(args.retrieve)
     # init_journal_entry(args.retrieve)
     # ttstatus.twitter_update(read_journal_entry())
