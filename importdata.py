@@ -131,6 +131,8 @@ def journal_import(journal_file):
 
 def random_import():
 
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    
     cur = conn.cursor()
 
     import_file = 'import/random/TTRandomTweets - tweets.csv'
