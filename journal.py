@@ -92,6 +92,7 @@ def ready_to_write_journal():
 
     init_journal_entry(journal_date)
 
+
 def journal_import(journal_file):
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
 
@@ -102,14 +103,13 @@ def journal_import(journal_file):
 
     c = conn.cursor()
 
-
     journal_dir = 'import/journal-entries/'
     # journal_file = '1917-05-04.txt'
     # create table journal_entries (journal_date text, journal_index text, journal_text text)
 
     file = open(journal_dir + journal_file)
     read_data = file.readlines()
-    journal_date = journal_file.replace('.txt','').replace('-',' ')
+    journal_date = journal_file.replace('.txt', '').replace('-', ' ')
     print(journal_date)
     # Delete existing rows
     c.execute('delete from journal_entries where journal_date = %s ', (journal_date,))
@@ -123,9 +123,9 @@ def journal_import(journal_file):
         journal_text = row.rstrip()
         length = len(journal_text)
         # print(journal_date, row_index,journal_text)
-        print(f'{journal_date} {row_index} {journal_text} {length} ({ok_length if length < 200 else warning }) ')
+        print(f'{journal_date} {row_index} {journal_text} {length} ({ok_length if length < 200 else warning}) ')
         c.execute(""" INSERT INTO journal_entries (journal_date, journal_index, journal_text)
-        VALUES (%s,%s,%s)""", (journal_date,row_index,journal_text))
+        VALUES (%s,%s,%s)""", (journal_date, row_index, journal_text))
     conn.commit()
 
 
