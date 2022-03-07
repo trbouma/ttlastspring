@@ -136,7 +136,7 @@ def main():
     args = get_args()
     print(args.retrieve)
     # ready_to_write_journal()
-    journal_import(args.journal)
+    # journal_import(args.journal)
     # get_journal_entries(args.retrieve)
     # init_journal_entry(args.retrieve)
     # print(read_journal_entry())
