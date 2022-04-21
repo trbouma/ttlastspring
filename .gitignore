@@ -10,3 +10,4 @@ importdata.py
 postgres.py
 /tmp/
 /images/*
+/export/*
