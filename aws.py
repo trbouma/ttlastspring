@@ -1,20 +1,26 @@
-cleaimport boto3
+import boto3
 import botocore
 import s3fs
 import os
 import requests
 import shutil
+from dotenv import load_dotenv
 
 
-def old_func():
-    s3_client = boto3.client('s3')
-    s3_resource = boto3.resource('s3')
+def file_exists_on_amazon(filename, bucketname):
+    s5 = s3fs.S3FileSystem()
+    s4 = boto3.client('s3')
 
-    BUCKET_NAME = 'ttbucket'
-    OBJECT_NAME = '1tfLDVQ.jpg'
-    FILE_NAME = '1tfLDVQ.jpg'
+    file_prefix = "images/"
 
-    s3_resource.Object(BUCKET_NAME, FILE_NAME).upload_file(Filename=FILE_NAME)
+    if s5.exists(bucketname + "/" + file_prefix + filename):
+        print(f'{filename} exists on amazon!')
+        return True
+    else:
+        print(f'{filename} DOES NOT EXIST on amazon!')
+        return False
+
+    
 
 
 def fetch_media(request_media):
@@ -72,38 +78,57 @@ def fetch_media(request_media):
 
         return filename
 
+def main():
+    print('AWS')
+    load_dotenv()
+
+    print(os.environ['TIM'])
+    print(os.environ['DATABASE_URL'])
+    print(os.environ['AWS_ACCESS_KEY_ID'])
+    # fetch_media('lake-shore-road.jpg')
+    file_exists_on_amazon('lake-shore-road.jpg','myttbucket')
+
 # ----------------------------------------------------------
-
-BUCKET_NAME = 'myttbucket'
-OBJECT_NAME = '1tfLDVQ.jpg'
-FILE_NAME = '1tfLDVQ.jpg'
+if __name__ == "__main__":
+    main()
 
 
-s3 = boto3.resource('s3')
-for bucket in s3.buckets.all():
-    print(bucket.name)
-
-# data = open('import/images/1tfLDVQ.jpg','rb')
-# s3.Bucket('myttbucket').put_object(Key='1tfLDVQ.jpg',Body=data)
-    # s3.Bucket('myttbucket').
-
-BUCKET_NAME = 'myttbucket'
-OBJECT_NAME = 'images/lake-shore-road.jpg'
-FILE_NAME = 'tmp/' + OBJECT_NAME.split("/")[-1]
-print(FILE_NAME)
-s4 = boto3.client('s3')
-s4.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
 
 
-# Documentation is here: https://s3fs.readthedocs.io/en/latest/
-s5 = s3fs.S3FileSystem()
-print(OBJECT_NAME)
-if s5.exists(BUCKET_NAME +"/"+ OBJECT_NAME):
-    print('true!')
 
-filename = fetch_media('http://www3.sympatico.ca/tim.bouma/anniversary/Image14.jpg')
-# filename = fetch_media('https://i.imgur.com/b9chZhE.png')
-print(filename)
+def extra_stuff():
+
+
+    BUCKET_NAME = 'myttbucket'
+    OBJECT_NAME = '1tfLDVQ.jpg'
+    FILE_NAME = '1tfLDVQ.jpg'
+
+
+    s3 = boto3.resource('s3')
+    for bucket in s3.buckets.all():
+        print(bucket.name)
+
+    # data = open('import/images/1tfLDVQ.jpg','rb')
+    # s3.Bucket('myttbucket').put_object(Key='1tfLDVQ.jpg',Body=data)
+        # s3.Bucket('myttbucket').
+
+    BUCKET_NAME = 'myttbucket'
+    OBJECT_NAME = 'images/lake-shore-road.jpg'
+    FILE_NAME = 'tmp/' + OBJECT_NAME.split("/")[-1]
+    print(FILE_NAME)
+    s4 = boto3.client('s3')
+    s4.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
+
+
+    # Documentation is here: https://s3fs.readthedocs.io/en/latest/
+    s5 = s3fs.S3FileSystem()
+    print(OBJECT_NAME)
+    if s5.exists(BUCKET_NAME +"/"+ OBJECT_NAME):
+        print('true!')
+
+    filename = fetch_media('http://www3.sympatico.ca/tim.bouma/anniversary/Image14.jpg')
+    # filename = fetch_media('https://i.imgur.com/b9chZhE.png')
+    print(filename)
 
 
 

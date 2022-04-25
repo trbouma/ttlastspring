@@ -1,5 +1,5 @@
 .env
-/.venv/*
+/ttl/*
 *.pyc
 staticfiles
 .env
@@ -11,3 +11,4 @@ postgres.py
 /tmp/
 /images/*
 /export/*
+tt.out

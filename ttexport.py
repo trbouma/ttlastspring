@@ -2,6 +2,22 @@ import os
 import csv
 from dotenv import load_dotenv
 import psycopg2
+import boto3
+import botocore
+import s3fs
+
+def file_exists_on_amazon(filename, bucketname):
+    s5 = s3fs.S3FileSystem()
+    s4 = boto3.client('s3')
+
+    file_prefix = "images/"
+
+    if s5.exists(bucketname + "/" + file_prefix + filename):
+        print(f'{filename} exists on amazon!')
+        return True
+    else:
+        print(f'{filename} DOES NOT EXIST on amazon!')
+        return False
 
 def test_connect():
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
@@ -52,6 +68,22 @@ def test_journal_export():
         for one_row in query_results:
             catalog_file.writerow(one_row)
 
+def process_catalogue_file():
+    with open('export/catalogue.csv','r') as csvfile:
+        catalog_file = csv.reader(csvfile)
+        for id, status,description, request_media, tags in catalog_file:
+            if "?" in request_media:
+                request_media_out = request_media.split("?")[0].split("/")[-1]
+            else:
+                request_media_out = request_media.split("/")[-1]  
+           
+            print(id, request_media_out) 
+            file_exists_on_amazon(request_media_out, 'myttbucket')
+        
+
+
+
+
 load_dotenv()
 
 print(os.environ['TIM'])
@@ -60,4 +92,6 @@ print(os.environ['DATABASE_URL'])
 # test_row_fetch()
 # test_catalogue_export()
 # test_tweet_export()
-test_journal_export()
+# test_journal_export()
+process_catalogue_file()
+# file_exists_on_amazon('myttbucket','lake')
