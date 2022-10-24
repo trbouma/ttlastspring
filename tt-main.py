@@ -112,13 +112,14 @@ def twitter_update_with_media(current_tweet, with_media):
     api = tweepy.API(auth)
 
     try:
-        api.verify_credentials()
-        print("Authentication for media update OK")
+        screen_name = api.verify_credentials().screen_name
+        print("Authentication for media update OK:", screen_name)
     except:
         print("Error during authentication for media update")
 
     try:
-        api.update_with_media(with_media, status=current_tweet)
+        print("with_media:", with_media)
+        api.update_status_with_media(filename=with_media,status=current_tweet)
         print("Status with media update OK")
         os.remove(with_media)
     except:
