@@ -10,6 +10,7 @@ import schedule
 import requests
 import shutil
 import journal
+from dotenv import load_dotenv
 
 
 # Main worker file tt-main.py
@@ -219,6 +220,7 @@ def tweet_journal_entry():
 # This is the main script to run
 
 start_time = datetime.datetime.now()
+load_dotenv()
 
 print("Starting up! Version 2021-03-16 heroku-20 stack " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
