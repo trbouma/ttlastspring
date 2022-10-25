@@ -225,7 +225,9 @@ load_dotenv()
 
 print("Starting up! Version 2021-03-16 heroku-20 stack " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
+print("Database URL", os.environ["DATABASE_URL"])
 
+twitter_update("Hello World!" + start_time.strftime("%c"))
 print(check_journal_write_status())
 if check_journal_write_status():
     print('Journal is writing')
