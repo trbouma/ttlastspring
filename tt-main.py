@@ -11,6 +11,7 @@ import requests
 import shutil
 import journal
 from dotenv import load_dotenv
+from helpers import get_filename
 
 
 # Main worker file tt-main.py
@@ -125,6 +126,29 @@ def twitter_update_with_media(current_tweet, with_media):
     except:
         print("Error during status and media update")
 
+def twitter_update_with_local_image(current_tweet, with_media):
+    auth = tweepy.OAuthHandler(os.environ['TWITTER_CONSUMER_KEY'], os.environ['TWITTER_CONSUMER_SECRET'])
+    auth.set_access_token(os.environ['TWITTER_ACCESS_KEY'], os.environ['TWITTER_ACCESS_SECRET'])
+    api = tweepy.API(auth)
+
+    try:
+        screen_name = api.verify_credentials().screen_name
+        print("Authentication for media update OK:", screen_name)
+    except:
+        print("Error during authentication for media update")
+
+    try:
+        
+        # local_images = os.environ['IMAGES_LOCAL']
+        print("with_media: ", with_media)
+        _media_id = api.simple_upload(filename=with_media)
+        print("media id", _media_id)
+        # api.update_status(status=current_tweet, mediaids=_media_id)
+        # api.update_status_with_media(filename=with_media,status=current_tweet)
+        print("Status with media update OK")
+        # os.remove(with_media)
+    except:
+        print("Error during status and media update")
 
 def fetch_media(request_media):
     # TODO Fetch media - input a request determine if filename or url
@@ -194,11 +218,13 @@ def send_sketch():
     sketch_media = rows[sketch_row][3]
 
     c.close()
-
-    local_media = fetch_media(sketch_media)
-
-    if os.path.isfile(local_media):
-        twitter_update_with_media(sketch_tweet, local_media)
+    print("sketch media: ", sketch_media)
+    local_media = get_filename(sketch_media)
+    local_image = os.path.join(images_local,local_media)
+    print("local image:", local_image)
+    if os.path.isfile(local_image):
+        print("image exists on file!")
+        twitter_update_with_local_image(sketch_tweet, local_image)
     else:
         twitter_update(sketch_tweet)
 
@@ -227,7 +253,10 @@ print("Starting up! Version 2021-03-16 heroku-20 stack " + start_time.strftime("
 print('Journal Time:', os.environ['JOURNAL_TIME'])
 print("Database URL", os.environ["DATABASE_URL"])
 
-twitter_update("Hello World!" + start_time.strftime("%c"))
+images_local = os.environ["IMAGES_LOCAL"]
+print("Images Local: ", images_local)
+
+twitter_update("Hello World! " + start_time.strftime("%c"))
 print(check_journal_write_status())
 if check_journal_write_status():
     print('Journal is writing')
