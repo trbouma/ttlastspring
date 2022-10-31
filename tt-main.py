@@ -75,8 +75,12 @@ def real_time_tweet():
         else:
             # local_media = fetch_media(scheduled_tweet[3])
             print(scheduled_tweet[3] + "with media" + scheduled_tweet[4])
-            local_media = fetch_media(scheduled_tweet[4])
-            twitter_update_with_media(scheduled_tweet[3], local_media)
+            # local_media = fetch_media(scheduled_tweet[4])
+            local_media = get_filename(scheduled_tweet[4])
+            
+            local_image = os.path.join(images_local,local_media)
+
+            twitter_update_with_local_image(scheduled_tweet[3], local_image)
 
 
 def lookup_tweet(sched_month, time_string):
@@ -133,22 +137,23 @@ def twitter_update_with_local_image(current_tweet, with_media):
 
     try:
         screen_name = api.verify_credentials().screen_name
-        print("Authentication for media update OK:", screen_name)
+        print("Authentication with local image OK:", screen_name)
     except:
         print("Error during authentication for media update")
 
     try:
         
         # local_images = os.environ['IMAGES_LOCAL']
+        # with_media = "images/794qc.jpg"
         print("with_media: ", with_media)
-        _media_id = api.simple_upload(filename=with_media)
-        print("media id", _media_id)
-        # api.update_status(status=current_tweet, mediaids=_media_id)
-        # api.update_status_with_media(filename=with_media,status=current_tweet)
-        print("Status with media update OK")
+        # _media_id = api.simple_upload(filename=with_media)
+        # print("media id", _media_id.mediad_id)
+        # api.update_status(status=current_tweet, mediaids=_media_id.media_id)
+        api.update_status_with_media(filename=with_media,status=current_tweet)
+        print("Status with local image update update OK")
         # os.remove(with_media)
     except:
-        print("Error during status and media update")
+        print("Error during local image update")
 
 def fetch_media(request_media):
     # TODO Fetch media - input a request determine if filename or url
