@@ -208,7 +208,7 @@ def main():
 
     print("Data Utilities")
     args = get_args()
-    # test_connect()
+    test_connect()
     # catalogue_import()
     # random_import()
     # sched_tweet_import()

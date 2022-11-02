@@ -261,7 +261,9 @@ print("Database URL", os.environ["DATABASE_URL"])
 images_local = os.environ["IMAGES_LOCAL"]
 print("Images Local: ", images_local)
 
-twitter_update("Hello World! " + start_time.strftime("%c"))
+if os.environ["TT_DEBUG"]==True:
+    twitter_update("Hello World! " + start_time.strftime("%c"))
+
 print(check_journal_write_status())
 if check_journal_write_status():
     print('Journal is writing')
