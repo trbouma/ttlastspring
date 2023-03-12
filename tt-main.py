@@ -12,6 +12,7 @@ import shutil
 import journal
 from dotenv import load_dotenv
 from helpers import get_filename
+import logging
 
 
 # Main worker file tt-main.py
@@ -254,7 +255,7 @@ def tweet_journal_entry():
 start_time = datetime.datetime.now()
 load_dotenv()
 
-print("Starting up! Version 2021-03-16 heroku-20 stack " + start_time.strftime("%c"))
+print("Starting up! Using Docker " + start_time.strftime("%c"))
 print('Journal Time:', os.environ['JOURNAL_TIME'])
 print("Database URL", os.environ["DATABASE_URL"])
 
