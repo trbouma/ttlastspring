@@ -252,43 +252,46 @@ def tweet_journal_entry():
 # -------------------------------------------------------------------
 # This is the main script to run
 
-start_time = datetime.datetime.now()
-load_dotenv()
+if __name__ == "__main__":
 
-print("Starting up! Using Docker " + start_time.strftime("%c"))
-print('Journal Time:', os.environ['JOURNAL_TIME'])
-print("Database URL", os.environ["DATABASE_URL"])
+    start_time = datetime.datetime.now()
+    load_dotenv()
 
-images_local = os.environ["IMAGES_LOCAL"]
-print("Images Local: ", images_local)
+    print("Starting up! Using Docker " + start_time.strftime("%c"))
+    print('Journal Time:', os.environ['JOURNAL_TIME'])
+    print("Database URL", os.environ["DATABASE_URL"])
 
-if os.environ["TT_DEBUG"]==True:
-    twitter_update("Hello World! " + start_time.strftime("%c"))
+    images_local = os.environ["IMAGES_LOCAL"]
+    print("Images Local: ", images_local)
 
-print(check_journal_write_status())
-if check_journal_write_status():
-    print('Journal is writing')
-else:
-    print('Journal is done')
+    if os.environ["TT_DEBUG"]==True:
+        twitter_update("Hello World! " + start_time.strftime("%c"))
 
-print(random_tweet())
-twitter_update(random_tweet())
-send_sketch()
+    print(check_journal_write_status())
+    if check_journal_write_status():
+        print('Journal is writing')
+    else:
+        print('Journal is done')
 
-# print(random_tweet())
-# api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
-# FILE_NAME = fetch_media('http://www3.sympatico.ca/tim.bouma/images/backroad9.jpg')
-# twitter_update_with_media(random_tweet() + ' ' + start_time.strftime("%c"), FILE_NAME)
+    print(random_tweet())
+    twitter_update(random_tweet())
+    # send_sketch()
+
+    # print(random_tweet())
+    # api.update_status(random_tweet() + ' ' + start_time.strftime("%c"))
+    # FILE_NAME = fetch_media('http://www3.sympatico.ca/tim.bouma/images/backroad9.jpg')
+    # twitter_update_with_media(random_tweet() + ' ' + start_time.strftime("%c"), FILE_NAME)
 
 
-# Set up jobs that trigger at intervals
-print("Set up scheduled jobs")
-schedule.every(1).minutes.do(real_time_tweet)
-schedule.every(1).minutes.do(tweet_journal_entry)
-schedule.every(4).hours.do(random_status)
-schedule.every(1).to(4).hours.do(send_sketch)
-schedule.every().day.at(os.environ['JOURNAL_TIME']).do(journal.ready_to_write_journal)
+    # Set up jobs that trigger at intervals
+    print("Set up scheduled jobs")
+    schedule.every(1).minutes.do(real_time_tweet)
+    schedule.every(1).minutes.do(tweet_journal_entry)
+    schedule.every(4).hours.do(random_status)
+    schedule.every(1).to(4).hours.do(send_sketch)
+    schedule.every().day.at(os.environ['JOURNAL_TIME']).do(journal.ready_to_write_journal)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+        
