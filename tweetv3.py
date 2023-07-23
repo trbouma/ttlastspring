@@ -137,12 +137,10 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    # send_sketch()
+    schedule.every(1).to(4).hours.do(send_sketch)
+    schedule.every(1).minutes.do(real_time_tweet)
 
-    schedule.every(1).to(8).hours.do(send_sketch)
-    # schedule.every(1).minutes.do(real_time_tweet)
-
-    # send_sketch()
+    send_sketch()
     print("Starting up!")
 
     while True:
